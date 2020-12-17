@@ -7,9 +7,11 @@ import ejbs.FamiliaBean;
 import entities.*;
 import exceptions.MyConstraintViolationException;
 import exceptions.MyEntityNotFoundException;
+import exceptions.Utils;
 
 import javax.ejb.EJB;
 import javax.ejb.EJBException;
+import javax.validation.ConstraintViolationException;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -98,13 +100,13 @@ public class EstruturaService {
 
     @POST
     @Path("/")
-    public EstruturaDTO createEstrutura(EstruturaDTO estruturaDTO) throws MyEntityNotFoundException, MyConstraintViolationException {
+    public EstruturaDTO createEstrutura(EstruturaDTO estruturaDTO) throws Exception {
         try {
             Set<Familia> familias = new HashSet<>();
             for (FamiliaDTO familia : estruturaDTO.getFamilias()) {
                 familias.add(familiaBean.findOrFail(familia.getName()));
             }
-            Estrutura estrutura = estruturaBean.create(familias,
+            Estrutura estrutura = estruturaBean.create(estruturaDTO.getProjeto().getId(),familias,
                     estruturaDTO.getAplicacao().getName(),
                     estruturaDTO.getSobrecargaCategoria().getCode(),
                     estruturaDTO.getMaterial(),
@@ -138,8 +140,8 @@ public class EstruturaService {
                     estruturaDTO.getCoeficienteCombinacaoNeveVento2(),
                     estruturaDTO.getCoeficienteCombinacaoNeveVento3());
             return toDTO(estrutura);
-        } catch (Exception e) {
-            throw new EJBException("Erro ao disponibilizar estruturas");
+        } catch (ConstraintViolationException e) {
+            throw new Exception(Utils.getConstraintViolationMessages(e));
         }
     }
     @GET
@@ -148,8 +150,8 @@ public class EstruturaService {
         try{
             Estrutura estrutura = estruturaBean.find(id);
             return Response.status(Response.Status.OK).entity(toDTO(estrutura)).build();
-        } catch (Exception e) {
-            throw new EJBException("Erro ao encontrar projeto", e);
+        } catch (ConstraintViolationException e) {
+            throw new EJBException("Erro ao realizar update ao projeto", e);
         }
     }
 
@@ -172,8 +174,8 @@ public class EstruturaService {
             }
 
             return Response.status(Response.Status.OK).build();
-        }catch (Exception e){
-            throw new EJBException("Erro ao disponibilizar esturturas");
+        }catch (ConstraintViolationException e) {
+            throw new Exception(Utils.getConstraintViolationMessages(e));
         }
     }
 

@@ -31,6 +31,9 @@ public class EstruturaBean extends BaseBean<Estrutura, Integer>{
     @EJB
     private SimulacaoBean simulacaoBean;
 
+    @EJB
+    private ProjetoBean projetoBean;
+
     public EstruturaBean() {
     }
 
@@ -48,12 +51,13 @@ public class EstruturaBean extends BaseBean<Estrutura, Integer>{
     }*/
 
 
-    public Estrutura create(Set<Familia> familiasParameter, String aplicacao, Character sobreCargaCategoria, String material, int numVaos, int comprimentoVao, int espacamentoEntreVigas, double angulo, double cargaPermanente, double sobrecarga, double neve, boolean altitudeMaior1000, double pressaoVento, double succaoVento, boolean contraventamentoTotal, int contraventamentoLateral, boolean contribuicaoChapaRevestimento, int numFixacoes, String inerciaChapaRevestimento, String combinacaoAcoesVerificacaoDeformacao, double limiteDeformacao, double coeficienteCombinacaoSobrecarga, double coeficienteCombinacaoSobrecargaNum1, double coeficienteCombinacaoSobrecargaNum2, double coeficienteCombinacaoSobrecargaNum3, double coeficienteCombinacaoNeve, double coeficienteCombinacaoNeveNum1, double coeficienteCombinacaoNeveNum2, double coeficienteCombinacaoNeveNum3, double coeficienteCombinacaoVento, double coeficienteCombinacaoNeveVento1, double coeficienteCombinacaoNeveVento2, double coeficienteCombinacaoNeveVento3) throws MyEntityNotFoundException, MyConstraintViolationException {
+    public Estrutura create(int projeto_id, Set<Familia> familiasParameter, String aplicacao, Character sobreCargaCategoria, String material, int numVaos, int comprimentoVao, int espacamentoEntreVigas, double angulo, double cargaPermanente, double sobrecarga, double neve, boolean altitudeMaior1000, double pressaoVento, double succaoVento, boolean contraventamentoTotal, int contraventamentoLateral, boolean contribuicaoChapaRevestimento, int numFixacoes, String inerciaChapaRevestimento, String combinacaoAcoesVerificacaoDeformacao, double limiteDeformacao, double coeficienteCombinacaoSobrecarga, double coeficienteCombinacaoSobrecargaNum1, double coeficienteCombinacaoSobrecargaNum2, double coeficienteCombinacaoSobrecargaNum3, double coeficienteCombinacaoNeve, double coeficienteCombinacaoNeveNum1, double coeficienteCombinacaoNeveNum2, double coeficienteCombinacaoNeveNum3, double coeficienteCombinacaoVento, double coeficienteCombinacaoNeveVento1, double coeficienteCombinacaoNeveVento2, double coeficienteCombinacaoNeveVento3) throws Exception {
+        Projeto projeto = projetoBean.find(projeto_id);
         Aplicacao app = aplicacaoBean.findOrFail(aplicacao);
         SobreCargaCategoria sobreCargaCat = sobrecargaCategoriaBean.findOrFail(sobreCargaCategoria);
         CombinacaoAcoesVerificacaoDeformacao combinacaoAcoesVerificacaoDef = combinacaoAcoesVerificacaoDeformacaoBean.findOrFail(combinacaoAcoesVerificacaoDeformacao);
         try {
-            Estrutura estrutura = new Estrutura(familiasParameter, app, sobreCargaCat, material, numVaos, comprimentoVao, espacamentoEntreVigas, angulo, cargaPermanente, sobrecarga, neve, altitudeMaior1000, pressaoVento, succaoVento, contraventamentoTotal, contraventamentoLateral, contribuicaoChapaRevestimento, numFixacoes, inerciaChapaRevestimento, combinacaoAcoesVerificacaoDef, limiteDeformacao, coeficienteCombinacaoSobrecarga, coeficienteCombinacaoSobrecargaNum1, coeficienteCombinacaoSobrecargaNum2, coeficienteCombinacaoSobrecargaNum3, coeficienteCombinacaoNeve, coeficienteCombinacaoNeveNum1, coeficienteCombinacaoNeveNum2, coeficienteCombinacaoNeveNum3, coeficienteCombinacaoVento, coeficienteCombinacaoNeveVento1, coeficienteCombinacaoNeveVento2, coeficienteCombinacaoNeveVento3);
+            Estrutura estrutura = new Estrutura(projeto, familiasParameter, app, sobreCargaCat, material, numVaos, comprimentoVao, espacamentoEntreVigas, angulo, cargaPermanente, sobrecarga, neve, altitudeMaior1000, pressaoVento, succaoVento, contraventamentoTotal, contraventamentoLateral, contribuicaoChapaRevestimento, numFixacoes, inerciaChapaRevestimento, combinacaoAcoesVerificacaoDef, limiteDeformacao, coeficienteCombinacaoSobrecarga, coeficienteCombinacaoSobrecargaNum1, coeficienteCombinacaoSobrecargaNum2, coeficienteCombinacaoSobrecargaNum3, coeficienteCombinacaoNeve, coeficienteCombinacaoNeveNum1, coeficienteCombinacaoNeveNum2, coeficienteCombinacaoNeveNum3, coeficienteCombinacaoVento, coeficienteCombinacaoNeveVento1, coeficienteCombinacaoNeveVento2, coeficienteCombinacaoNeveVento3);
             em.persist(estrutura);
             return estrutura;
         } catch (ConstraintViolationException e){
