@@ -4,9 +4,13 @@ import dtos.*;
 import ejbs.EmailBean;
 import ejbs.EstruturaBean;
 import entities.*;
+import exceptions.MyConstraintViolationException;
+import exceptions.MyEntityNotFoundException;
+import exceptions.Utils;
 
 import javax.ejb.EJB;
 import javax.ejb.EJBException;
+import javax.validation.ConstraintViolationException;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -88,14 +92,61 @@ public class EstruturaService {
         return toDTOs(estruturaBean.all());
     }
 
+
+    @POST
+    @Path("/")
+    public EstruturaDTO createEstrutura(EstruturaDTO estruturaDTO) throws Exception {
+        try {
+            Set<Familia> familias = new HashSet<>();
+            for (FamiliaDTO familia : estruturaDTO.getFamilias()) {
+                familias.add(familiaBean.findOrFail(familia.getName()));
+            }
+            Estrutura estrutura = estruturaBean.create(estruturaDTO.getProjeto().getId(),familias,
+                    estruturaDTO.getAplicacao().getName(),
+                    estruturaDTO.getSobrecargaCategoria().getCode(),
+                    estruturaDTO.getMaterial(),
+                    estruturaDTO.getNumVaos(),
+                    estruturaDTO.getComprimentoVao(),
+                    estruturaDTO.getEspacamentoEntreVigas(),
+                    estruturaDTO.getAngulo(),
+                    estruturaDTO.getCargaPermanente(),
+                    estruturaDTO.getSobrecarga(),
+                    estruturaDTO.getNeve(),
+                    estruturaDTO.isAltitudeMaior1000(),
+                    estruturaDTO.getPressaoVento(),
+                    estruturaDTO.getSuccaoVento(),
+                    estruturaDTO.isContraventamentoTotal(),
+                    estruturaDTO.getContraventamentoLateral(),
+                    estruturaDTO.isContribuicaoChapaRevestimento(),
+                    estruturaDTO.getNumFixacoes(),
+                    estruturaDTO.getInerciaChapaRevestimento(),
+                    estruturaDTO.getCombinacaoAcoesVerificacaoDeformacao().getName(),
+                    estruturaDTO.getLimiteDeformacao(),
+                    estruturaDTO.getCoeficienteCombinacaoSobrecarga(),
+                    estruturaDTO.getCoeficienteCombinacaoSobrecargaNum1(),
+                    estruturaDTO.getCoeficienteCombinacaoSobrecargaNum2(),
+                    estruturaDTO.getCoeficienteCombinacaoSobrecargaNum3(),
+                    estruturaDTO.getCoeficienteCombinacaoNeve(),
+                    estruturaDTO.getCoeficienteCombinacaoNeveNum1(),
+                    estruturaDTO.getCoeficienteCombinacaoNeveNum2(),
+                    estruturaDTO.getCoeficienteCombinacaoNeveNum3(),
+                    estruturaDTO.getCoeficienteCombinacaoVento(),
+                    estruturaDTO.getCoeficienteCombinacaoNeveVento1(),
+                    estruturaDTO.getCoeficienteCombinacaoNeveVento2(),
+                    estruturaDTO.getCoeficienteCombinacaoNeveVento3());
+            return toDTO(estrutura);
+        } catch (ConstraintViolationException e) {
+            throw new Exception(Utils.getConstraintViolationMessages(e));
+        }
+    }
     @GET
     @Path("/{id}")
     public Response getStructure(@PathParam("id")Integer id) {
         try{
             Estrutura estrutura = estruturaBean.find(id);
             return Response.status(Response.Status.OK).entity(toDTO(estrutura)).build();
-        } catch (Exception e) {
-            throw new EJBException("Erro ao encontrar projeto", e);
+        } catch (ConstraintViolationException e) {
+            throw new EJBException("Erro ao realizar update ao projeto", e);
         }
     }
 
@@ -118,8 +169,41 @@ public class EstruturaService {
             }
 
             return Response.status(Response.Status.OK).build();
+        }catch (ConstraintViolationException e) {
+            throw new Exception(Utils.getConstraintViolationMessages(e));
+        }
+    }
+
+    @PUT
+    @Path("/{id}")
+    public EstruturaDTO updateEstrutura(@PathParam("id")int id, EstruturaDTO estruturaDTO){
+        try{
+            estruturaBean.findOrFail(id);
+            Set<Familia> familias = new HashSet<>();
+            for(FamiliaDTO familia : estruturaDTO.getFamilias()){
+                familias.add(familiaBean.findOrFail(familia.getName()));
+            }
+            Estrutura estruturaUpdated = estruturaBean.update(id, familias, estruturaDTO.getAplicacao().getName(), estruturaDTO.getSobrecargaCategoria().getCode(), estruturaDTO.getMaterial(), estruturaDTO.getNumVaos(), estruturaDTO.getComprimentoVao(),
+                    estruturaDTO.getEspacamentoEntreVigas(), estruturaDTO.getAngulo(), estruturaDTO.getCargaPermanente(), estruturaDTO.getSobrecarga(), estruturaDTO.getNeve(), estruturaDTO.isAltitudeMaior1000(),
+                    estruturaDTO.getPressaoVento(), estruturaDTO.getSuccaoVento(),estruturaDTO.isContraventamentoTotal(), estruturaDTO.getContraventamentoLateral(), estruturaDTO.isContribuicaoChapaRevestimento(),
+                    estruturaDTO.getNumFixacoes(), estruturaDTO.getInerciaChapaRevestimento(),estruturaDTO.getCombinacaoAcoesVerificacaoDeformacao().getName(), estruturaDTO.getLimiteDeformacao(), estruturaDTO.getCoeficienteCombinacaoSobrecarga(),
+                    estruturaDTO.getCoeficienteCombinacaoSobrecargaNum1(), estruturaDTO.getCoeficienteCombinacaoSobrecargaNum2(), estruturaDTO.getCoeficienteCombinacaoSobrecargaNum3(), estruturaDTO.getCoeficienteCombinacaoNeve(), estruturaDTO.getCoeficienteCombinacaoNeveNum1(),
+                    estruturaDTO.getCoeficienteCombinacaoNeveNum2(), estruturaDTO.getCoeficienteCombinacaoNeveNum3(), estruturaDTO.getCoeficienteCombinacaoVento(), estruturaDTO.getCoeficienteCombinacaoNeveVento1(), estruturaDTO.getCoeficienteCombinacaoNeveVento2(),
+                    estruturaDTO.getCoeficienteCombinacaoNeveVento3());
+            return toDTO(estruturaUpdated);
         }catch (Exception e){
-            throw new EJBException("Erro ao disponibilizar esturturas");
+            throw new EJBException("Erro no update");
+        }
+    }
+
+    @DELETE
+    @Path("/{id}")
+    public Response deleteEstrutura(@PathParam("id")int id){
+        try{
+            estruturaBean.delete(id);
+            return Response.status(Response.Status.OK).build();
+        }catch (Exception e){
+            throw new EJBException("Erro ao eliminar estruturas");
         }
     }
 }
