@@ -3,6 +3,7 @@ package ws;
 import dtos.*;
 import ejbs.EmailBean;
 import ejbs.EstruturaBean;
+import ejbs.FamiliaBean;
 import entities.*;
 import exceptions.MyConstraintViolationException;
 import exceptions.MyEntityNotFoundException;
@@ -14,6 +15,7 @@ import javax.validation.ConstraintViolationException;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -30,6 +32,9 @@ public class EstruturaService {
 
     @EJB
     private EmailBean emailBean;
+
+    @EJB
+    private FamiliaBean familiaBean;
 
     public static AplicacaoDTO aplicacaoToDTO(Aplicacao aplicacao){
         return new AplicacaoDTO(aplicacao.getName());
