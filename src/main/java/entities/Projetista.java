@@ -1,8 +1,10 @@
 package entities;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @NamedQueries({
@@ -13,7 +15,7 @@ import java.util.List;
 })
 public class Projetista extends User {
     private String nome;
-    @OneToMany
+    @ManyToMany(mappedBy = "projetistas", fetch = FetchType.EAGER)
     private List<Projeto> projetos;
 
 
@@ -24,6 +26,7 @@ public class Projetista extends User {
     public Projetista(String username, String password, String email, String nome) {
         super(username, password, email);
         this.nome = nome;
+        this.projetos = new LinkedList<>();
     }
 
     public String getNome() {

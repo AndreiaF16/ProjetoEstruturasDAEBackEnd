@@ -3,7 +3,9 @@ package entities;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.LinkedHashSet;
+import java.util.LinkedList;
 import java.util.Set;
+
 
 
 @Entity

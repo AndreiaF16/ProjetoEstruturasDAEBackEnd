@@ -94,7 +94,7 @@ public class MessageBean {
             if(message == null){
                 throw new MyEntityNotFoundException("Message with code '" + messageCode + "' not found.");
             }
-            User user = usersBean.find(userId + "");
+            User user = usersBean.find(userId);
             if (user == null) {
                 throw new MyEntityNotFoundException("User with id '" + userId + "' not found.");
             }

@@ -1,10 +1,12 @@
 package ws;
 
 import dtos.ClienteDTO;
+import dtos.EstruturaDTO;
 import dtos.ProjetoDTO;
 import ejbs.ClienteBean;
 import ejbs.ProjetoBean;
 import entities.Cliente;
+import entities.Estrutura;
 import entities.Projeto;
 
 import javax.ejb.EJB;

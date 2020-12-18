@@ -7,9 +7,8 @@ import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.ejb.Singleton;
 import javax.ejb.Startup;
-import java.util.HashSet;
 import java.util.LinkedHashMap;
-import java.util.Set;
+import java.util.logging.Logger;
 
 @Singleton(name = "ConfigEJB")
 @Startup
@@ -57,13 +56,13 @@ public class ConfigBean {
 
             Projeto projeto = projetoBean.create("Projeto Um", cliente.getId(),true);
             Projeto projeto2 = projetoBean.create("Projeto Dois", cliente1.getId(), true);
+            Projeto projeto3 = projetoBean.create("Projeto Tres", cliente.getId(), false);
 
             //Criar Categorias já existentes no site online
             System.out.println("####### A criar defauls values...");
-            Set<Familia> familias = new HashSet<>();
-            familias.add(familiaBean.create("Omega"));
-            familias.add(familiaBean.create("C"));
-            familias.add(familiaBean.create("Z"));
+            familiaBean.create("Omega");
+            familiaBean.create("C");
+            familiaBean.create("Z");
             aplicacaoBean.create("Cobertura");
             aplicacaoBean.create("Fachada");
             aplicacaoBean.create("Geral");
@@ -78,21 +77,23 @@ public class ConfigBean {
             sobrecargaCategoriaBean.create("Categoria E: zonas de armazenamento", 'E');
             sobrecargaCategoriaBean.create("Categoria F: zonas de tráfego, peso dos veículos ≤ 30 kN", 'F');
             sobrecargaCategoriaBean.create("Categoria G: zonas de tráfego, 30 kN < peso dos veículos ≥ 160 kN", 'G');
-            estruturaBean.create(familias, "Cobertura", 'A', "Inox", 1,1,1,1,1,1,1,true,1,1,true,1,false,1,"9.8e-8","Característica",1,1,1,1,1,1,1,1,1,1,1,1, 1);
-            estruturaBean.create(familias, "Cobertura", 'B', "Inox", 1,1,1,1,1,1,1,true,1,1,true,1,false,1,"9.8e-8","Característica",1,1,1,1,1,1,1,1,1,1,1,1, 1);
-            Estrutura estrutura = estruturaBean.create(familias, "Cobertura", 'A', "Inox", 1, 1, 1, 1, 1, 1, 1, true, 1, 1, true, 1, false, 1, "9.8e-8", "Característica", 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1);
-            Estrutura estrutura1 = estruturaBean.create(familias, "Cobertura", 'B', "Inox", 1, 1, 1, 1, 1, 1, 1, true, 1, 1, true, 1, false, 1, "9.8e-8", "Característica", 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1);
+            String[] familia = {"Omega", "C", "Z"};
+            Estrutura estrutura = estruturaBean.create(familia, "Cobertura", 'A', "Inox", 1, 1, 1, 1, 1, 1, 1, true, 1, 1, true, 1, false, 1, "9.8e-8", "Característica", 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1);
+            Estrutura estrutura1 = estruturaBean.create(familia, "Cobertura", 'B', "Inox", 1, 1, 1, 1, 1, 1, 1, true, 1, 1, true, 1, false, 1, "9.8e-8", "Característica", 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1);
 
             projeto.addEstruturas(estrutura);
             estrutura.setProjeto(projeto);
             projeto2.addEstruturas(estrutura1);
             estrutura1.setProjeto(projeto2);
 
-            projeto.addProjetistas(projetista);
+            projeto.addProjetista(projetista);
             projetista.addProjeto(projeto);
 
-            projeto2.addProjetistas(projetista);
+            projeto2.addProjetista(projetista);
             projetista.addProjeto(projeto2);
+
+            projeto3.addProjetista(projetista);
+            projetista.addProjeto(projeto3);
         }
         catch(Exception e){
         }

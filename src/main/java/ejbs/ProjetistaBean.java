@@ -34,21 +34,23 @@ public class ProjetistaBean {
         }
     }
 
-    public Cliente find(Integer id) throws Exception {
+    public Projetista find(Integer id) throws Exception {
         try{
-            return em.find(Cliente.class, id);
+            return em.find(Projetista.class, id);
         } catch (Exception e) {
             throw new Exception("ERRO_ENCONTRAR_CLIENTE");
         }
     }
 
-    public List<Projeto> getProjetosCliente(Integer id) throws Exception {
+    public List<Projeto> getProjetosProjetistas(Integer id) throws Exception {
         try{
-            Cliente cliente = find(id);
+            Projetista projetista = find(id);
             List<Projeto> projetos = new LinkedList<>();
             for (Projeto projeto : projetoBean.all()) {
-                if(projeto.getCliente().getId() == cliente.getId()){
-                    projetos.add(projeto);
+                for (Projetista projetoProjetista : projeto.getProjetistas()) {
+                    if(projetoProjetista.getId() == projetista.getId()){
+                        projetos.add(projeto);
+                    }
                 }
             }
             return projetos;

@@ -1,8 +1,12 @@
 package ws;
 
+import dtos.EstruturaDTO;
+import dtos.ProjetistaDTO;
 import dtos.ProjetoDTO;
 import ejbs.EmailBean;
+import ejbs.ProjetistaBean;
 import ejbs.ProjetoBean;
+import entities.Estrutura;
 import entities.Projeto;
 
 import javax.ejb.EJB;
@@ -39,9 +43,9 @@ public class ProjetoService {
         if (!projeto.getEstruturas().isEmpty()){
             prj.setEstruturas(EstruturaService.toDTOs(projeto.getEstruturas()));
         }
-        /*if (!projeto.getProjetistas().isEmpty()){
+        if (!projeto.getProjetistas().isEmpty()){
             prj.setProjetistas(ProjetistaService.toDTOs(projeto.getProjetistas()));
-        }*/
+        }
         return  prj;
     }
 
@@ -58,7 +62,7 @@ public class ProjetoService {
         return projetos.stream().map(ProjetoService::toDTO).collect(Collectors.toList());
     }
 
-    private List<ProjetoDTO> toDTOsNoDetails(List<Projeto> projetos) {
+    public static List<ProjetoDTO> toDTOsNoDetails(List<Projeto> projetos) {
         return projetos.stream().map(ProjetoService::toDTONoDetails).collect(Collectors.toList());
     }
 
@@ -87,6 +91,15 @@ public class ProjetoService {
                 projetoDTO.getNomeProjeto(),
                 projetoDTO.getClienteId(),
                 projetoDTO.getDisponivel());
+
+        if(!projetoDTO.getProjetistas().isEmpty()) {
+            for (ProjetistaDTO projetista : projetoDTO.getProjetistas()) {
+                projetoBean.addProjetistaToProject(projetista.getId(), newProjeto.getId());
+            }
+        }else{
+            return Response.status(Response.Status.BAD_REQUEST).build();
+        }
+
         try {
             if (newProjeto == null)
                 return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
@@ -114,7 +127,6 @@ public class ProjetoService {
     @DELETE
     @Path("/{id}")
     public Response deleteProjeto(@PathParam("id") Integer id) throws Exception {
-
         try {
             projetoBean.delete(id);
             return Response.status(Response.Status.OK).build();

@@ -1,17 +1,20 @@
 package ws;
 
 import dtos.EmailDTO;
+import dtos.ProjetoDTO;
 import dtos.UserDTO;
 import ejbs.EmailBean;
 import ejbs.MessageBean;
 import ejbs.UsersBean;
 import entities.Message;
+import entities.Projeto;
 import entities.User;
 import exceptions.MyConstraintViolationException;
 import exceptions.MyEntityNotFoundException;
 import exceptions.MyNoRecipientException;
 
 import javax.ejb.EJB;
+import javax.ejb.EJBException;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -41,13 +44,12 @@ public class UserService {
     @GET
     @Path("{username}")
     public Response getUserByID(@PathParam("username")String username){
-        /*User user = usersBean.findByUsername(username);
+        User user = usersBean.findByUsername(username);
         try{
             return Response.status(Response.Status.OK).entity(toDTO(user)).build();
         } catch (Exception e) {
             throw new EJBException("Erro ao encontrar projeto", e);
-        }*/
-        return Response.status(Response.Status.OK).build();
+        }
     }
 
     @POST

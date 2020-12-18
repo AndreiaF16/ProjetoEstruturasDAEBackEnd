@@ -1,5 +1,9 @@
 package dtos;
 
+import entities.Cliente;
+import entities.Estrutura;
+import entities.Ficheiro;
+
 import java.util.LinkedList;
 import java.util.List;
 
@@ -9,7 +13,7 @@ public class ProjetoDTO {
     private Integer clienteId;
     private List<FicheiroDTO> ficheiros;
     private List<EstruturaDTO> estruturas;
-    private List<ProjetoDTO> projetistas;
+    private List<ProjetistaDTO> projetistas;
     private Boolean disponivel;
 
     public ProjetoDTO() {
@@ -29,7 +33,7 @@ public class ProjetoDTO {
         this.projetistas = new LinkedList<>();
     }
 
-    public ProjetoDTO(Integer id, String nomeProjeto, Integer clienteId, List<FicheiroDTO> ficheiros, List<EstruturaDTO> estruturas, List<ProjetoDTO> projetistas, Boolean disponivel) {
+    public ProjetoDTO(Integer id, String nomeProjeto, Integer clienteId, List<FicheiroDTO> ficheiros, List<EstruturaDTO> estruturas, List<ProjetistaDTO> projetistas, Boolean disponivel) {
         this.id = id;
         this.nomeProjeto = nomeProjeto;
         this.clienteId = clienteId;
@@ -87,11 +91,11 @@ public class ProjetoDTO {
         this.disponivel = disponivel;
     }
 
-    public List<ProjetoDTO> getProjetistas() {
+    public List<ProjetistaDTO> getProjetistas() {
         return projetistas;
     }
 
-    public void setProjetistas(List<ProjetoDTO> projetistas) {
+    public void setProjetistas(List<ProjetistaDTO> projetistas) {
         this.projetistas = projetistas;
     }
 }

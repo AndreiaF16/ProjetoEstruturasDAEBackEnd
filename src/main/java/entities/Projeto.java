@@ -42,6 +42,7 @@ public class Projeto implements Serializable {
     public Projeto() {
         this.estruturas = new LinkedList<>();
         this.ficheiros = new LinkedList<>();
+        this.projetistas = new LinkedList<>();
         this.disponivel = false;
     }
 
@@ -51,6 +52,7 @@ public class Projeto implements Serializable {
         this.disponivel = false;
         this.estruturas = new LinkedList<>();
         this.ficheiros = new LinkedList<>();
+        this.projetistas = new LinkedList<>();
     }
 
     public Projeto(String nomeProjeto, Cliente cliente, Boolean disponivel) {
@@ -59,6 +61,7 @@ public class Projeto implements Serializable {
         this.disponivel = disponivel;
         this.estruturas = new LinkedList<>();
         this.ficheiros = new LinkedList<>();
+        this.projetistas = new LinkedList<>();
     }
 
     public Projeto(Integer id, String nomeProjeto, Cliente cliente, List<Ficheiro> ficheiros, List<Estrutura> estruturas) {
@@ -67,6 +70,7 @@ public class Projeto implements Serializable {
         this.cliente = cliente;
         this.estruturas = new LinkedList<>();
         this.ficheiros = new LinkedList<>();
+        this.projetistas = new LinkedList<>();
         this.ficheiros = ficheiros;
         this.estruturas = estruturas;
         this.disponivel = false;
@@ -138,11 +142,11 @@ public class Projeto implements Serializable {
         this.projetistas = projetista;
     }
 
-    public void addProjetistas(Projetista projetista) {
+    public void addProjetista(Projetista projetista) {
         this.projetistas.add(projetista);
     }
 
-    public void removeProjetistas(Projetista projetista) {
+    public void removeProjetista(Projetista projetista) {
         this.projetistas.remove(projetista);
     }
 

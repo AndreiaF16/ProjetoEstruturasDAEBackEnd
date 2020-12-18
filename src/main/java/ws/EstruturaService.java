@@ -3,17 +3,13 @@ package ws;
 import dtos.*;
 import ejbs.EmailBean;
 import ejbs.EstruturaBean;
-import ejbs.FamiliaBean;
 import entities.*;
-import exceptions.MyConstraintViolationException;
-import exceptions.MyEntityNotFoundException;
 
 import javax.ejb.EJB;
 import javax.ejb.EJBException;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -30,9 +26,6 @@ public class EstruturaService {
 
     @EJB
     private EmailBean emailBean;
-
-    @EJB
-    private FamiliaBean familiaBean;
 
     public static AplicacaoDTO aplicacaoToDTO(Aplicacao aplicacao){
         return new AplicacaoDTO(aplicacao.getName());
@@ -95,53 +88,6 @@ public class EstruturaService {
         return toDTOs(estruturaBean.all());
     }
 
-
-    @POST
-    @Path("/")
-    public EstruturaDTO createEstrutura(EstruturaDTO estruturaDTO) throws MyEntityNotFoundException, MyConstraintViolationException {
-        try {
-            Set<Familia> familias = new HashSet<>();
-            for (FamiliaDTO familia : estruturaDTO.getFamilias()) {
-                familias.add(familiaBean.findOrFail(familia.getName()));
-            }
-            Estrutura estrutura = estruturaBean.create(familias,
-                    estruturaDTO.getAplicacao().getName(),
-                    estruturaDTO.getSobrecargaCategoria().getCode(),
-                    estruturaDTO.getMaterial(),
-                    estruturaDTO.getNumVaos(),
-                    estruturaDTO.getComprimentoVao(),
-                    estruturaDTO.getEspacamentoEntreVigas(),
-                    estruturaDTO.getAngulo(),
-                    estruturaDTO.getCargaPermanente(),
-                    estruturaDTO.getSobrecarga(),
-                    estruturaDTO.getNeve(),
-                    estruturaDTO.isAltitudeMaior1000(),
-                    estruturaDTO.getPressaoVento(),
-                    estruturaDTO.getSuccaoVento(),
-                    estruturaDTO.isContraventamentoTotal(),
-                    estruturaDTO.getContraventamentoLateral(),
-                    estruturaDTO.isContribuicaoChapaRevestimento(),
-                    estruturaDTO.getNumFixacoes(),
-                    estruturaDTO.getInerciaChapaRevestimento(),
-                    estruturaDTO.getCombinacaoAcoesVerificacaoDeformacao().getName(),
-                    estruturaDTO.getLimiteDeformacao(),
-                    estruturaDTO.getCoeficienteCombinacaoSobrecarga(),
-                    estruturaDTO.getCoeficienteCombinacaoSobrecargaNum1(),
-                    estruturaDTO.getCoeficienteCombinacaoSobrecargaNum2(),
-                    estruturaDTO.getCoeficienteCombinacaoSobrecargaNum3(),
-                    estruturaDTO.getCoeficienteCombinacaoNeve(),
-                    estruturaDTO.getCoeficienteCombinacaoNeveNum1(),
-                    estruturaDTO.getCoeficienteCombinacaoNeveNum2(),
-                    estruturaDTO.getCoeficienteCombinacaoNeveNum3(),
-                    estruturaDTO.getCoeficienteCombinacaoVento(),
-                    estruturaDTO.getCoeficienteCombinacaoNeveVento1(),
-                    estruturaDTO.getCoeficienteCombinacaoNeveVento2(),
-                    estruturaDTO.getCoeficienteCombinacaoNeveVento3());
-            return toDTO(estrutura);
-        } catch (Exception e) {
-            throw new EJBException("Erro ao disponibilizar estruturas");
-        }
-    }
     @GET
     @Path("/{id}")
     public Response getStructure(@PathParam("id")Integer id) {
@@ -174,39 +120,6 @@ public class EstruturaService {
             return Response.status(Response.Status.OK).build();
         }catch (Exception e){
             throw new EJBException("Erro ao disponibilizar esturturas");
-        }
-    }
-
-    @PUT
-    @Path("/{id}")
-    public EstruturaDTO updateEstrutura(int id, EstruturaDTO estruturaDTO){
-        try{
-            estruturaBean.findOrFail(id);
-            Set<Familia> familias = new HashSet<>();
-            for(FamiliaDTO familia : estruturaDTO.getFamilias()){
-                familias.add(familiaBean.findOrFail(familia.getName()));
-            }
-            Estrutura estruturaUpdated = estruturaBean.update(id, familias, estruturaDTO.getAplicacao().getName(), estruturaDTO.getSobrecargaCategoria().getCode(), estruturaDTO.getMaterial(), estruturaDTO.getNumVaos(), estruturaDTO.getComprimentoVao(),
-                    estruturaDTO.getEspacamentoEntreVigas(), estruturaDTO.getAngulo(), estruturaDTO.getCargaPermanente(), estruturaDTO.getSobrecarga(), estruturaDTO.getNeve(), estruturaDTO.isAltitudeMaior1000(),
-                    estruturaDTO.getPressaoVento(), estruturaDTO.getSuccaoVento(),estruturaDTO.isContraventamentoTotal(), estruturaDTO.getContraventamentoLateral(), estruturaDTO.isContribuicaoChapaRevestimento(),
-                    estruturaDTO.getNumFixacoes(), estruturaDTO.getInerciaChapaRevestimento(),estruturaDTO.getCombinacaoAcoesVerificacaoDeformacao().getName(), estruturaDTO.getLimiteDeformacao(), estruturaDTO.getCoeficienteCombinacaoSobrecarga(),
-                    estruturaDTO.getCoeficienteCombinacaoSobrecargaNum1(), estruturaDTO.getCoeficienteCombinacaoSobrecargaNum2(), estruturaDTO.getCoeficienteCombinacaoSobrecargaNum3(), estruturaDTO.getCoeficienteCombinacaoNeve(), estruturaDTO.getCoeficienteCombinacaoNeveNum1(),
-                    estruturaDTO.getCoeficienteCombinacaoNeveNum2(), estruturaDTO.getCoeficienteCombinacaoNeveNum3(), estruturaDTO.getCoeficienteCombinacaoVento(), estruturaDTO.getCoeficienteCombinacaoNeveVento1(), estruturaDTO.getCoeficienteCombinacaoNeveVento2(),
-                    estruturaDTO.getCoeficienteCombinacaoNeveVento3());
-            return toDTO(estruturaUpdated);
-        }catch (Exception e){
-            throw new EJBException("Erro no update");
-        }
-    }
-
-    @DELETE
-    @Path("/{id}")
-    public Response deleteEstrutura(int id){
-        try{
-            estruturaBean.delete(id);
-            return Response.status(Response.Status.OK).build();
-        }catch (Exception e){
-            throw new EJBException("Erro ao eliminar esturturas");
         }
     }
 }

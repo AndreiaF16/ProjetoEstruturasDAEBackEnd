@@ -1,9 +1,6 @@
 package ejbs;
 
-import entities.Cliente;
-import entities.Estrutura;
-import entities.Ficheiro;
-import entities.Projeto;
+import entities.*;
 
 import javax.ejb.EJB;
 import javax.ejb.EJBException;
@@ -30,6 +27,9 @@ public class ProjetoBean {
     @EJB
     private EstruturaBean estruturaBean;
 
+    @EJB
+    private ProjetistaBean projetistaBean;
+
     public ProjetoBean() {
     }
 
@@ -40,6 +40,22 @@ public class ProjetoBean {
         }
 
         Projeto projeto = new Projeto(nomeProjeto, cliente, disponivel);
+        em.persist(projeto);
+        return projeto;
+    }
+
+    public Projeto createV2(String nomeProjeto, Integer clienteId, Boolean disponivel, List<Integer> projetistas) throws Exception {
+        Cliente cliente = clienteBean.find(clienteId);
+        if (cliente == null) {
+            throw new Exception("Id '" + clienteId + "' does not exists");
+        }
+
+        Projeto projeto = new Projeto(nomeProjeto, cliente, disponivel);
+        for (Integer IdProjetista : projetistas) {
+            Projetista projetista = projetistaBean.find(IdProjetista);
+            projeto.addProjetista(projetista);
+            projetista.addProjeto(projeto);
+        }
         em.persist(projeto);
         return projeto;
     }
@@ -76,7 +92,6 @@ public class ProjetoBean {
         }
     }
 
-    //TODO perguntar se faz sentido dar update ao cliente
     public Projeto update(Integer id, String nomeProjeto) throws Exception {
         Projeto projeto = find(id);
 
@@ -161,5 +176,14 @@ public class ProjetoBean {
         Estrutura estrutura = estruturaBean.find(idEstrutura);
         projeto.removeEstruturas(estrutura);
         estrutura.setProjeto(null);
+    }
+
+    public void addProjetistaToProject(Integer idProjetista, Integer idProjeto) throws Exception {
+        Projetista projetista = projetistaBean.find(idProjetista);
+        Projeto projeto = find(idProjeto);
+        projetista.addProjeto(projeto);
+        projeto.addProjetista(projetista);
+        em.merge(projetista);
+        em.merge(projeto);
     }
 }

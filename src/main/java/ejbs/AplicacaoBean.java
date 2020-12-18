@@ -11,6 +11,7 @@ import javax.ejb.EJBException;
 import javax.ejb.Stateless;
 import javax.persistence.LockModeType;
 import javax.validation.ConstraintViolationException;
+import java.util.Set;
 
 @Stateless
 public class AplicacaoBean extends BaseBean<Aplicacao, String>{

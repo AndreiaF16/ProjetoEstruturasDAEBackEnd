@@ -1,5 +1,8 @@
 package dtos;
 
+import entities.Familia;
+import entities.Projeto;
+
 import java.util.LinkedHashSet;
 import java.util.Set;
 

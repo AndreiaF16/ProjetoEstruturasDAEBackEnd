@@ -6,6 +6,7 @@ import exceptions.MyConstraintViolationException;
 import exceptions.MyEntityAlreadyExistsException;
 import exceptions.Utils;
 
+import javax.ejb.EJB;
 import javax.ejb.EJBException;
 import javax.ejb.Stateless;
 import javax.persistence.LockModeType;

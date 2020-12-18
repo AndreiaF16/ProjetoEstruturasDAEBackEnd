@@ -4,6 +4,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.LinkedHashMap;
+import java.util.List;
 
 @Entity
 public class Variante implements Serializable {

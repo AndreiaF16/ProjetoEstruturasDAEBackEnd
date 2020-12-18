@@ -5,6 +5,8 @@ import com.nimbusds.jwt.JWTParser;
 import dtos.AuthDTO;
 import ejbs.JwtBean;
 import ejbs.UsersBean;
+import entities.User;
+import jwt.Jwt;
 
 import javax.ejb.EJB;
 import javax.ws.rs.*;
@@ -26,10 +28,10 @@ public class LoginService {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public Response authenticateUser(AuthDTO authDTO) {
-        //try {
-            //User user_1 = usersBean.findByUsername(authDTO.getUsername());
-            //User user = usersBean.authenticate(user_1.getId()+ "", authDTO.getPassword());
-            /*if (user != null) {
+        try {
+            User user_1 = usersBean.findByUsername(authDTO.getUsername());
+            User user = usersBean.authenticate(user_1.getId(), authDTO.getPassword());
+            if (user != null) {
                 if (user.getUsername() != null) {
                     log.info("Generating JWT for user " + user.getUsername());
                 }
@@ -38,9 +40,8 @@ public class LoginService {
             }
         } catch (Exception e) {
             log.info(e.getMessage());
-        }*/
+        }
         return Response.status(Response.Status.UNAUTHORIZED).build();
-
     }
 
     @GET
