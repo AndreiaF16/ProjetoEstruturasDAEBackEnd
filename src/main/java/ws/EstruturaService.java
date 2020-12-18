@@ -181,7 +181,7 @@ public class EstruturaService {
 
     @PUT
     @Path("/{id}")
-    public EstruturaDTO updateEstrutura(int id, EstruturaDTO estruturaDTO){
+    public EstruturaDTO updateEstrutura(@PathParam("id")int id, EstruturaDTO estruturaDTO){
         try{
             estruturaBean.findOrFail(id);
             Set<Familia> familias = new HashSet<>();
@@ -203,12 +203,12 @@ public class EstruturaService {
 
     @DELETE
     @Path("/{id}")
-    public Response deleteEstrutura(int id){
+    public Response deleteEstrutura(@PathParam("id")int id){
         try{
             estruturaBean.delete(id);
             return Response.status(Response.Status.OK).build();
         }catch (Exception e){
-            throw new EJBException("Erro ao eliminar esturturas");
+            throw new EJBException("Erro ao eliminar estruturas");
         }
     }
 }

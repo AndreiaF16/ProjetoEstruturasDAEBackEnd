@@ -19,4 +19,12 @@ public class SobrecargaCategoriaDTO {
     public String getName() {
         return name;
     }
+
+    public void setCode(Character code) {
+        this.code = code;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 }

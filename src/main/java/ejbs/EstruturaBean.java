@@ -92,7 +92,6 @@ public class EstruturaBean extends BaseBean<Estrutura, Integer>{
 
     public Estrutura update(int id, Set<Familia> familias, String aplicacao, Character code, String material, int numVaos, int comprimentoVao, int espacamentoEntreVigas, double angulo, double cargaPermanente, double sobrecarga, double neve, boolean altitudeMaior1000, double pressaoVento, double succaoVento, boolean contraventamentoTotal, int contraventamentoLateral, boolean contribuicaoChapaRevestimento, int numFixacoes, String inerciaChapaRevestimento, String combinacaoAcoesVerificacaoDeformacao, double limiteDeformacao, double coeficienteCombinacaoSobrecarga, double coeficienteCombinacaoSobrecargaNum1, double coeficienteCombinacaoSobrecargaNum2, double coeficienteCombinacaoSobrecargaNum3, double coeficienteCombinacaoNeve, double coeficienteCombinacaoNeveNum1, double coeficienteCombinacaoNeveNum2, double coeficienteCombinacaoNeveNum3, double coeficienteCombinacaoVento, double coeficienteCombinacaoNeveVento1, double coeficienteCombinacaoNeveVento2, double coeficienteCombinacaoNeveVento3) throws MyEntityNotFoundException, MyConstraintViolationException {
         try {
-            //TODO Verificar se é necessário fazer ifs para todos os atributos ou se faço só set
             Estrutura estrutura = findOrFail(id);
             CombinacaoAcoesVerificacaoDeformacao combinacaoAcoesVerificacaoDeformacao1 = combinacaoAcoesVerificacaoDeformacaoBean.findOrFail(combinacaoAcoesVerificacaoDeformacao);
             SobreCargaCategoria sobreCargaCategoria = sobrecargaCategoriaBean.findOrFail(code);
