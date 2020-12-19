@@ -164,4 +164,18 @@ public class EstruturaBean extends BaseBean<Estrutura, Integer>{
             return false;
         }
     }
+
+    public List<Estrutura> filterEstrutura(String material) throws Exception {
+        try {
+            if((!material.equals("") && material!=null)){
+
+                return em.createNamedQuery("getStructuresByMaterial", Estrutura.class).
+                        setParameter("material", material).getResultList();
+
+            }
+            return new LinkedList<>();
+        } catch (Exception e) {
+            throw new Exception("Erro ao encontrar os Ficheiros do projeto", e);
+        }
+    }
 }

@@ -13,6 +13,10 @@ import java.util.Set;
         @NamedQuery(
                 name = "getAllStructures",
                 query = "SELECT e FROM Estrutura e ORDER BY e.aplicacao.name" // JPQL
+        ),
+        @NamedQuery(
+                name = "getStructuresByMaterial",
+                query = "SELECT e FROM Estrutura e WHERE UPPER(e.material) LIKE UPPER(:material) ORDER BY e.aplicacao.name" // JPQL
         )
 })
 public class Estrutura implements Serializable {

@@ -202,6 +202,17 @@ public class EstruturaService {
     }
 
     @POST
+    @Path("/filter")
+    public Response getFilterList(FiltroEstrutura filtroEstrutura) throws Exception {
+        try{
+            List<Estrutura> estruturas = estruturaBean.filterEstrutura(filtroEstrutura.getMaterial());
+            return Response.status(Response.Status.OK).entity(EstruturaService.toDTOs(estruturas)).build();
+        } catch (Exception e) {
+            throw new EJBException("Erro ao encontrar Estruturas", e);
+        }
+    }
+
+    @POST
     @Path("/simulation/{estruturaID}/{varianteID}")
     public Response simulacaoEstrutura(@PathParam("estruturaID") int estruturaID, @PathParam("varianteID") int varianteID) throws Exception {
         try {
