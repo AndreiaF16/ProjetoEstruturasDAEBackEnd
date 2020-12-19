@@ -7,6 +7,12 @@ import java.util.LinkedHashMap;
 import java.util.List;
 
 @Entity
+@NamedQueries({
+        @NamedQuery(
+                name = "getAllVariantes",
+                query = "SELECT v FROM Variante v ORDER BY v.nome" // JPQL
+        )
+})
 public class Variante implements Serializable {
 
     private static double G = 78.5;
