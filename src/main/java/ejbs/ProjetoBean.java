@@ -8,6 +8,7 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.LockModeType;
 import javax.persistence.PersistenceContext;
+import java.util.LinkedList;
 import java.util.List;
 
 //TODO: falta o filtrar
@@ -44,22 +45,6 @@ public class ProjetoBean {
         return projeto;
     }
 
-    public Projeto createV2(String nomeProjeto, Integer clienteId, Boolean disponivel, List<Integer> projetistas) throws Exception {
-        Cliente cliente = clienteBean.find(clienteId);
-        if (cliente == null) {
-            throw new Exception("Id '" + clienteId + "' does not exists");
-        }
-
-        Projeto projeto = new Projeto(nomeProjeto, cliente, disponivel);
-        for (Integer IdProjetista : projetistas) {
-            Projetista projetista = projetistaBean.find(IdProjetista);
-            projeto.addProjetista(projetista);
-            projetista.addProjeto(projeto);
-        }
-        em.persist(projeto);
-        return projeto;
-    }
-
     public List<Projeto> all() {
         try {
             return (List<Projeto>) em.createNamedQuery("getAllProjects").getResultList();
@@ -91,6 +76,31 @@ public class ProjetoBean {
             throw new Exception("Erro ao encontrar os Ficheiros do projeto", e);
         }
     }
+
+    public List<Projeto> filterProject(String name, Integer idCliente) throws Exception {
+        try {
+            if((name.equals("") || name==null) && (idCliente>0 && idCliente!=null)){
+
+                return em.createNamedQuery("getProjetoByClient", Projeto.class).
+                        setParameter("id", idCliente).getResultList();
+
+            }else if((!name.equals("") && name!=null) && (idCliente<=0 || idCliente==null)){
+
+                return em.createNamedQuery("getProjetoByName", Projeto.class).
+                    setParameter("name", name).getResultList();
+
+            }else if((!name.equals("") && name!=null)  && (idCliente>0 && idCliente!=null)){
+
+                return em.createNamedQuery("getProjetoByClientAndName", Projeto.class).
+                        setParameter("name", name).setParameter("id", idCliente).getResultList();
+
+            }
+            return new LinkedList<>();
+        } catch (Exception e) {
+            throw new Exception("Erro ao encontrar os Ficheiros do projeto", e);
+        }
+    }
+
 
     public Projeto update(Integer id, String nomeProjeto) throws Exception {
         Projeto projeto = find(id);

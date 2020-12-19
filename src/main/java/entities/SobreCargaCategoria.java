@@ -2,9 +2,17 @@ package entities;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import java.io.Serializable;
 
 @Entity
+@NamedQueries({
+        @NamedQuery(
+                name = "SobreCargaCategoria",
+                query = "SELECT e FROM SobreCargaCategoria e ORDER BY e.name" // JPQL
+        )
+})
 public class SobreCargaCategoria implements Serializable {
     @Id
     private Character code;

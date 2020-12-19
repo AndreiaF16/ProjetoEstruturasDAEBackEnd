@@ -11,6 +11,18 @@ import java.util.List;
         @NamedQuery(
                 name = "getAllProjects",
                 query = "SELECT p FROM Projeto p ORDER BY p.nomeProjeto" // JPQL
+        ),
+        @NamedQuery(
+                name = "getProjetoByName",
+                query = "SELECT p FROM Projeto p where upper(p.nomeProjeto) LIKE upper(:name) ORDER BY p.nomeProjeto"
+        ),
+        @NamedQuery(
+                name = "getProjetoByClient",
+                query = "SELECT p FROM Projeto p where p.cliente.id = :id ORDER BY p.nomeProjeto"
+        ),
+        @NamedQuery(
+                name = "getProjetoByClientAndName",
+                query = "SELECT p FROM Projeto p where upper(p.nomeProjeto) LIKE upper(:name) and p.cliente.id = :id ORDER BY p.nomeProjeto"
         )
 })
 

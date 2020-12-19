@@ -1,6 +1,7 @@
 package ws;
 
 import dtos.EstruturaDTO;
+import dtos.FiltroProjeto;
 import dtos.ProjetistaDTO;
 import dtos.ProjetoDTO;
 import ejbs.EmailBean;
@@ -79,6 +80,17 @@ public class ProjetoService {
         try{
             ProjetoDTO projetoDTO = toDTO(projeto);
             return Response.status(Response.Status.OK).entity(projetoDTO).build();
+        } catch (Exception e) {
+            throw new EJBException("Erro ao encontrar projeto", e);
+        }
+    }
+
+    @POST
+    @Path("/filter")
+    public Response getFilterList(FiltroProjeto filtroProjeto) throws Exception {
+        try{
+            List<Projeto> projetos = projetoBean.filterProject(filtroProjeto.getNome(),filtroProjeto.getIdCliente());
+            return Response.status(Response.Status.OK).entity(ProjetoService.toDTOsNoDetails(projetos)).build();
         } catch (Exception e) {
             throw new EJBException("Erro ao encontrar projeto", e);
         }

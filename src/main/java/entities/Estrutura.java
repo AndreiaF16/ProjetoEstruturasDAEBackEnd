@@ -75,7 +75,8 @@ public class Estrutura implements Serializable {
     private double  coeficienteCombinacaoNeveVento1;
     private double  coeficienteCombinacaoNeveVento2;
     private double  coeficienteCombinacaoNeveVento3;
-
+    @Version
+    private int version;
 
     public Estrutura() {
         this.familias = new LinkedHashSet<>();

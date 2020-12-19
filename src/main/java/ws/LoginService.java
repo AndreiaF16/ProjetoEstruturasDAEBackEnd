@@ -46,6 +46,7 @@ public class LoginService {
 
     @GET
     @Path("/claims")
+    @Produces(MediaType.APPLICATION_JSON)
     public Response demonstrateClaims(@HeaderParam("Authorization") String auth) {
         if (auth != null && auth.startsWith("Bearer ")) {
             try {

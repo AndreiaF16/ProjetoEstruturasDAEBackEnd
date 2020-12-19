@@ -11,6 +11,7 @@ import javax.ejb.EJBException;
 import javax.ejb.Stateless;
 import javax.persistence.LockModeType;
 import javax.validation.ConstraintViolationException;
+import java.util.List;
 
 @Stateless
 public class FamiliaBean extends BaseBean<Familia, String>{
@@ -43,5 +44,11 @@ public class FamiliaBean extends BaseBean<Familia, String>{
         }
     }
 
-
+    public List<Familia> all(){
+        try {
+            return (List<Familia>) em.createNamedQuery("Familia").getResultList();
+        } catch (Exception e) {
+            throw new EJBException("ERRO_RETORNAR_CLIENTES", e);
+        }
+    }
 }

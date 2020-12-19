@@ -1,6 +1,7 @@
 package ejbs;
 
 import entities.CombinacaoAcoesVerificacaoDeformacao;
+import entities.SobreCargaCategoria;
 import exceptions.MyConstraintViolationException;
 import exceptions.MyEntityAlreadyExistsException;
 import exceptions.MyEntityNotFoundException;
@@ -10,6 +11,7 @@ import javax.ejb.EJBException;
 import javax.ejb.Stateless;
 import javax.persistence.LockModeType;
 import javax.validation.ConstraintViolationException;
+import java.util.List;
 
 @Stateless
 public class CombinacaoAcoesVerificacaoDeformacaoBean extends BaseBean<CombinacaoAcoesVerificacaoDeformacao, String>{
@@ -40,6 +42,14 @@ public class CombinacaoAcoesVerificacaoDeformacaoBean extends BaseBean<Combinaca
             return combinacaoAcoesVerificacaoDeformacao;
         } catch (Exception e) {
             throw new EJBException("ERROR_UPDATING_TYPE", e);
+        }
+    }
+
+    public List<CombinacaoAcoesVerificacaoDeformacao> all(){
+        try {
+            return (List<CombinacaoAcoesVerificacaoDeformacao>) em.createNamedQuery("CombinacaoAcoesVerificacaoDeformacao").getResultList();
+        } catch (Exception e) {
+            throw new EJBException("ERRO_RETORNAR_CLIENTES", e);
         }
     }
 }

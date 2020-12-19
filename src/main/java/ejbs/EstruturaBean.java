@@ -72,6 +72,7 @@ public class EstruturaBean extends BaseBean<Estrutura, Integer>{
         try {
             Estrutura estrutura = findOrFail(id);
             em.lock(estrutura, LockModeType.OPTIMISTIC);
+            estrutura.setFamilias(null);
             em.remove(estrutura);
             return "Estrutura " + id + " foi removida com sucesso!";
         }catch (ConstraintViolationException exception){

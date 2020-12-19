@@ -1,6 +1,7 @@
 package ejbs;
 
 import entities.CombinacaoAcoesVerificacaoDeformacao;
+import entities.Projeto;
 import entities.SobreCargaCategoria;
 import exceptions.MyConstraintViolationException;
 import exceptions.MyEntityAlreadyExistsException;
@@ -10,6 +11,7 @@ import javax.ejb.EJBException;
 import javax.ejb.Stateless;
 import javax.persistence.LockModeType;
 import javax.validation.ConstraintViolationException;
+import java.util.List;
 
 @Stateless
 public class SobrecargaCategoriaBean extends BaseBean<SobreCargaCategoria, Character>{
@@ -44,6 +46,13 @@ public class SobrecargaCategoriaBean extends BaseBean<SobreCargaCategoria, Chara
             return sobreCargaCategoria;
         } catch (Exception e) {
             throw new EJBException("ERROR_UPDATING_TYPE", e);
+        }
+    }
+    public List<SobreCargaCategoria> all(){
+        try {
+            return (List<SobreCargaCategoria>) em.createNamedQuery("SobreCargaCategoria").getResultList();
+        } catch (Exception e) {
+            throw new EJBException("ERRO_RETORNAR_CLIENTES", e);
         }
     }
 }

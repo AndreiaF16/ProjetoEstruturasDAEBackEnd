@@ -2,6 +2,7 @@ package ejbs;
 
 import entities.Aplicacao;
 import entities.CombinacaoAcoesVerificacaoDeformacao;
+import entities.Familia;
 import exceptions.MyConstraintViolationException;
 import exceptions.MyEntityAlreadyExistsException;
 import exceptions.MyEntityNotFoundException;
@@ -11,6 +12,7 @@ import javax.ejb.EJBException;
 import javax.ejb.Stateless;
 import javax.persistence.LockModeType;
 import javax.validation.ConstraintViolationException;
+import java.util.List;
 import java.util.Set;
 
 @Stateless
@@ -42,6 +44,14 @@ public class AplicacaoBean extends BaseBean<Aplicacao, String>{
             return aplicacao;
         } catch (Exception e) {
             throw new EJBException("ERROR_UPDATING_TYPE", e);
+        }
+    }
+
+    public List<Aplicacao> all(){
+        try {
+            return (List<Aplicacao>) em.createNamedQuery("Aplicacao").getResultList();
+        } catch (Exception e) {
+            throw new EJBException("ERRO_RETORNAR_CLIENTES", e);
         }
     }
 }

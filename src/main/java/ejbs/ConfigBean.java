@@ -51,9 +51,10 @@ public class ConfigBean {
     @PostConstruct
     public void populateBD() {
         try {
-            Cliente cliente = clienteBean.create("Andreia","123", "email@gmail.com","Andreia1", 123456521, "Morada");
+            Cliente cliente = clienteBean.create("Andreia","123", "2160844@my.ipleiria.pt","Andreia1", 123456521, "Morada");
             Cliente cliente1 = clienteBean.create("Miguelaaaaaa", "123123123", "email123@gmail.com", "Miguel", 123456521, "Morada");
             Projetista projetista = projetistaBean.create("Projetista1","123", "p1@gmail.com","p1");
+            Projetista p2 = projetistaBean.create("P2","123", "p2@gmail.com","Alex");
 
 
             Projeto projeto = projetoBean.create("Projeto Um", cliente.getId(),true);
