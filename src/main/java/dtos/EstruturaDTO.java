@@ -25,7 +25,7 @@ public class EstruturaDTO {
 
     private int numVaos;
 
-    private int comprimentoVao;
+    private double comprimentoVao;
 
     private int espacamentoEntreVigas;
 
@@ -122,7 +122,7 @@ public class EstruturaDTO {
         this.coeficienteCombinacaoNeveVento3 = coeficienteCombinacaoNeveVento3;
     }*/
 
-    public EstruturaDTO(Integer id, Boolean aceite, String observacoes, ProjetoDTO projeto, Set<FamiliaDTO> familias, AplicacaoDTO aplicacao, SobrecargaCategoriaDTO sobrecargaCategoria, String material, int numVaos, int comprimentoVao, int espacamentoEntreVigas, double angulo, double cargaPermanente, double sobrecarga, double neve, boolean altitudeMaior1000, double pressaoVento, double succaoVento, boolean contraventamentoTotal, int contraventamentoLateral, boolean contribuicaoChapaRevestimento, int numFixacoes, String inerciaChapaRevestimento, CombinacaoAcoesVerificacaoDeformacaoDTO combinacaoAcoesVerificacaoDeformacao, double limiteDeformacao, double coeficienteCombinacaoSobrecarga, double coeficienteCombinacaoSobrecargaNum1, double coeficienteCombinacaoSobrecargaNum2, double coeficienteCombinacaoSobrecargaNum3, double coeficienteCombinacaoNeve, double coeficienteCombinacaoNeveNum1, double coeficienteCombinacaoNeveNum2, double coeficienteCombinacaoNeveNum3, double coeficienteCombinacaoVento, double coeficienteCombinacaoNeveVento1, double coeficienteCombinacaoNeveVento2, double coeficienteCombinacaoNeveVento3) {
+    public EstruturaDTO(Integer id, Boolean aceite, String observacoes, ProjetoDTO projeto, Set<FamiliaDTO> familias, AplicacaoDTO aplicacao, SobrecargaCategoriaDTO sobrecargaCategoria, String material, int numVaos, double comprimentoVao, int espacamentoEntreVigas, double angulo, double cargaPermanente, double sobrecarga, double neve, boolean altitudeMaior1000, double pressaoVento, double succaoVento, boolean contraventamentoTotal, int contraventamentoLateral, boolean contribuicaoChapaRevestimento, int numFixacoes, String inerciaChapaRevestimento, CombinacaoAcoesVerificacaoDeformacaoDTO combinacaoAcoesVerificacaoDeformacao, double limiteDeformacao, double coeficienteCombinacaoSobrecarga, double coeficienteCombinacaoSobrecargaNum1, double coeficienteCombinacaoSobrecargaNum2, double coeficienteCombinacaoSobrecargaNum3, double coeficienteCombinacaoNeve, double coeficienteCombinacaoNeveNum1, double coeficienteCombinacaoNeveNum2, double coeficienteCombinacaoNeveNum3, double coeficienteCombinacaoVento, double coeficienteCombinacaoNeveVento1, double coeficienteCombinacaoNeveVento2, double coeficienteCombinacaoNeveVento3) {
         this.id = id;
         this.aceite = aceite;
         this.observacoes = observacoes;
@@ -210,11 +210,11 @@ public class EstruturaDTO {
         this.numVaos = numVaos;
     }
 
-    public int getComprimentoVao() {
+    public double getComprimentoVao() {
         return comprimentoVao;
     }
 
-    public void setComprimentoVao(int comprimentoVao) {
+    public void setComprimentoVao(double comprimentoVao) {
         this.comprimentoVao = comprimentoVao;
     }
 

@@ -201,6 +201,21 @@ public class EstruturaService {
         }
     }
 
+    @POST
+    @Path("/simulation/{estruturaID}/{varianteID}")
+    public Response simulacaoEstrutura(@PathParam("estruturaID") int estruturaID, @PathParam("varianteID") int varianteID) throws Exception {
+        try {
+           if (estruturaBean.realizarSimulacao(estruturaID, varianteID)) {
+               return Response.ok(true).build();
+           }
+           else {
+               return Response.ok(false).build();
+           }
+        }catch (ConstraintViolationException e) {
+            throw new Exception(Utils.getConstraintViolationMessages(e));
+        }
+    }
+
     @DELETE
     @Path("/{id}")
     public Response deleteEstrutura(@PathParam("id")int id){

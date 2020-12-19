@@ -81,10 +81,10 @@ public class ConfigBean {
             sobrecargaCategoriaBean.create("Categoria E: zonas de armazenamento", 'E');
             sobrecargaCategoriaBean.create("Categoria F: zonas de tráfego, peso dos veículos ≤ 30 kN", 'F');
             sobrecargaCategoriaBean.create("Categoria G: zonas de tráfego, 30 kN < peso dos veículos ≥ 160 kN", 'G');
-            estruturaBean.create(projeto.getId(), familias, "Cobertura", 'A', "Inox", 1,1,1,1,1,1,1,true,1,1,true,1,false,1,"9.8e-8","Característica",1,1,1,1,1,1,1,1,1,1,1,1, 1);
-            estruturaBean.create(projeto2.getId(), familias, "Cobertura", 'B', "Inox", 1,1,1,1,1,1,1,true,1,1,true,1,false,1,"9.8e-8","Característica",1,1,1,1,1,1,1,1,1,1,1,1, 1);
-            Estrutura estrutura = estruturaBean.create(projeto.getId(), familias, "Cobertura", 'A', "Inox", 1, 1, 1, 1, 1, 1, 1, true, 1, 1, true, 1, false, 1, "9.8e-8", "Característica", 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1);
-            Estrutura estrutura1 = estruturaBean.create(projeto2.getId(), familias, "Cobertura", 'B', "Inox", 1, 1, 1, 1, 1, 1, 1, true, 1, 1, true, 1, false, 1, "9.8e-8", "Característica", 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1);
+            estruturaBean.create(projeto.getId(), familias, "Cobertura", 'A', "Inox", 1,3.0,1,1,1,1,1,true,1,1,true,1,false,1,"9.8e-8","Característica",1,1,1,1,1,1,1,1,1,1,1,1, 1);
+            estruturaBean.create(projeto2.getId(), familias, "Cobertura", 'B', "Inox", 1,3.0,1,1,1,1,1,true,1,1,true,1,false,1,"9.8e-8","Característica",1,1,1,1,1,1,1,1,1,1,1,1, 1);
+            Estrutura estrutura = estruturaBean.create(projeto.getId(), familias, "Cobertura", 'A', "Inox", 1, 3.0, 1, 1, 1, 1, 1, true, 1, 1, true, 1, false, 1, "9.8e-8", "Característica", 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1);
+            Estrutura estrutura1 = estruturaBean.create(projeto2.getId(), familias, "Cobertura", 'B', "Inox", 1, 3.0, 1, 1, 1, 1, 1, true, 1, 1, true, 1, false, 1, "9.8e-8", "Característica", 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1);
 
             projeto.addEstruturas(estrutura);
             estrutura.setProjeto(projeto);

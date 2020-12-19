@@ -37,6 +37,10 @@ public class EstruturaBean extends BaseBean<Estrutura, Integer>{
     @EJB
     private ProjetoBean projetoBean;
 
+    @EJB
+    private VarianteBean varianteBean;
+
+
     public EstruturaBean() {
     }
 
@@ -54,7 +58,7 @@ public class EstruturaBean extends BaseBean<Estrutura, Integer>{
     }*/
 
 
-    public Estrutura create(int projeto_id, Set<Familia> familiasParameter, String aplicacao, Character sobreCargaCategoria, String material, int numVaos, int comprimentoVao, int espacamentoEntreVigas, double angulo, double cargaPermanente, double sobrecarga, double neve, boolean altitudeMaior1000, double pressaoVento, double succaoVento, boolean contraventamentoTotal, int contraventamentoLateral, boolean contribuicaoChapaRevestimento, int numFixacoes, String inerciaChapaRevestimento, String combinacaoAcoesVerificacaoDeformacao, double limiteDeformacao, double coeficienteCombinacaoSobrecarga, double coeficienteCombinacaoSobrecargaNum1, double coeficienteCombinacaoSobrecargaNum2, double coeficienteCombinacaoSobrecargaNum3, double coeficienteCombinacaoNeve, double coeficienteCombinacaoNeveNum1, double coeficienteCombinacaoNeveNum2, double coeficienteCombinacaoNeveNum3, double coeficienteCombinacaoVento, double coeficienteCombinacaoNeveVento1, double coeficienteCombinacaoNeveVento2, double coeficienteCombinacaoNeveVento3) throws Exception {
+    public Estrutura create(int projeto_id, Set<Familia> familiasParameter, String aplicacao, Character sobreCargaCategoria, String material, int numVaos, double comprimentoVao, int espacamentoEntreVigas, double angulo, double cargaPermanente, double sobrecarga, double neve, boolean altitudeMaior1000, double pressaoVento, double succaoVento, boolean contraventamentoTotal, int contraventamentoLateral, boolean contribuicaoChapaRevestimento, int numFixacoes, String inerciaChapaRevestimento, String combinacaoAcoesVerificacaoDeformacao, double limiteDeformacao, double coeficienteCombinacaoSobrecarga, double coeficienteCombinacaoSobrecargaNum1, double coeficienteCombinacaoSobrecargaNum2, double coeficienteCombinacaoSobrecargaNum3, double coeficienteCombinacaoNeve, double coeficienteCombinacaoNeveNum1, double coeficienteCombinacaoNeveNum2, double coeficienteCombinacaoNeveNum3, double coeficienteCombinacaoVento, double coeficienteCombinacaoNeveVento1, double coeficienteCombinacaoNeveVento2, double coeficienteCombinacaoNeveVento3) throws Exception {
         Projeto projeto = projetoBean.find(projeto_id);
         Aplicacao app = aplicacaoBean.findOrFail(aplicacao);
         SobreCargaCategoria sobreCargaCat = sobrecargaCategoriaBean.findOrFail(sobreCargaCategoria);
@@ -94,7 +98,7 @@ public class EstruturaBean extends BaseBean<Estrutura, Integer>{
         }
     }
 
-    public Estrutura update(int id, Set<Familia> familias, String aplicacao, Character code, String material, int numVaos, int comprimentoVao, int espacamentoEntreVigas, double angulo, double cargaPermanente, double sobrecarga, double neve, boolean altitudeMaior1000, double pressaoVento, double succaoVento, boolean contraventamentoTotal, int contraventamentoLateral, boolean contribuicaoChapaRevestimento, int numFixacoes, String inerciaChapaRevestimento, String combinacaoAcoesVerificacaoDeformacao, double limiteDeformacao, double coeficienteCombinacaoSobrecarga, double coeficienteCombinacaoSobrecargaNum1, double coeficienteCombinacaoSobrecargaNum2, double coeficienteCombinacaoSobrecargaNum3, double coeficienteCombinacaoNeve, double coeficienteCombinacaoNeveNum1, double coeficienteCombinacaoNeveNum2, double coeficienteCombinacaoNeveNum3, double coeficienteCombinacaoVento, double coeficienteCombinacaoNeveVento1, double coeficienteCombinacaoNeveVento2, double coeficienteCombinacaoNeveVento3) throws MyEntityNotFoundException, MyConstraintViolationException {
+    public Estrutura update(int id, Set<Familia> familias, String aplicacao, Character code, String material, int numVaos, double comprimentoVao, int espacamentoEntreVigas, double angulo, double cargaPermanente, double sobrecarga, double neve, boolean altitudeMaior1000, double pressaoVento, double succaoVento, boolean contraventamentoTotal, int contraventamentoLateral, boolean contribuicaoChapaRevestimento, int numFixacoes, String inerciaChapaRevestimento, String combinacaoAcoesVerificacaoDeformacao, double limiteDeformacao, double coeficienteCombinacaoSobrecarga, double coeficienteCombinacaoSobrecargaNum1, double coeficienteCombinacaoSobrecargaNum2, double coeficienteCombinacaoSobrecargaNum3, double coeficienteCombinacaoNeve, double coeficienteCombinacaoNeveNum1, double coeficienteCombinacaoNeveNum2, double coeficienteCombinacaoNeveNum3, double coeficienteCombinacaoVento, double coeficienteCombinacaoNeveVento1, double coeficienteCombinacaoNeveVento2, double coeficienteCombinacaoNeveVento3) throws MyEntityNotFoundException, MyConstraintViolationException {
         try {
             Estrutura estrutura = findOrFail(id);
             CombinacaoAcoesVerificacaoDeformacao combinacaoAcoesVerificacaoDeformacao1 = combinacaoAcoesVerificacaoDeformacaoBean.findOrFail(combinacaoAcoesVerificacaoDeformacao);
@@ -151,10 +155,13 @@ public class EstruturaBean extends BaseBean<Estrutura, Integer>{
         }
     }
 
-    public void realizarSimulacao(Estrutura estrutura){
-        //TODO como fazer esta simulação?
-        // Temos de criar uma nova variante com alguns dados que estão na estrutura ou não está nada relacionado e a variante é algo completamente independete
-        // Variante variante = new Variante()
-        // simulacaoBean.simulaVariante()
+    public boolean realizarSimulacao(int estrutura_id, int variante_id) throws MyEntityNotFoundException {
+        Estrutura estrutura = findOrFail(estrutura_id);
+        Variante variante = varianteBean.findOrFail(variante_id);
+        if (simulacaoBean.simulaVariante(estrutura.getNumVaos(), estrutura.getComprimentoVao(), (int) Math.round(estrutura.getSobrecarga()), variante)) { //numero de vao, largura, sobrecarga, variante a testar
+            return true;
+        } else {
+            return false;
+        }
     }
 }

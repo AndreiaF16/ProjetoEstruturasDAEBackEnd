@@ -16,6 +16,8 @@ import java.text.ParseException;
 import java.util.logging.Logger;
 
 @Path("/login")
+@Produces(MediaType.APPLICATION_JSON)
+@Consumes(MediaType.APPLICATION_JSON)
 public class LoginService {
     private static final Logger log = Logger.getLogger(LoginService.class.getName());
     @EJB
@@ -47,6 +49,7 @@ public class LoginService {
     @GET
     @Path("/claims")
     @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
     public Response demonstrateClaims(@HeaderParam("Authorization") String auth) {
         if (auth != null && auth.startsWith("Bearer ")) {
             try {
